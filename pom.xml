@@ -37,14 +37,30 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <gpg.key>0xE30426FD</gpg.key>
-        <spring.boot.version>2.6.6</spring.boot.version>
+        <spring-boot.version>2.6.7</spring-boot.version>
+        <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>
 
     <modules>
         <module>jauth-lib-core</module>
         <module>jauth-lib-spring-web</module>
-        <module>jauth-lib-spring-webflux</module>
+        <module>jauth-lib-spring-gateway</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <distributionManagement>
         <snapshotRepository>
