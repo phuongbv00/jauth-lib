@@ -11,7 +11,7 @@
 
     <artifactId>jauth-lib-spring-web</artifactId>
     <packaging>jar</packaging>
-    <name>JAuth Lib for Spring Boot Web</name>
+    <name>JAuth Lib Spring Web</name>
 
     <dependencies>
         <dependency>

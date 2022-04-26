@@ -11,7 +11,7 @@
 
     <artifactId>jauth-lib-spring-gateway</artifactId>
     <packaging>jar</packaging>
-    <name>JAuth Lib for Spring Cloud Gateway</name>
+    <name>JAuth Lib Spring Gateway</name>
 
     <dependencies>
         <dependency>
