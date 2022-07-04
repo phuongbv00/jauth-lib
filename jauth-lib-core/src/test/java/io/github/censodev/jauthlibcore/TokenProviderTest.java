@@ -1,10 +1,9 @@
 package io.github.censodev.jauthlibcore;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.security.WeakKeyException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,24 +32,24 @@ class TokenProviderTest {
     }
 
     @Test
-    void getCredentials() throws JsonProcessingException {
+    void getCredentials() {
         String token = tokenProvider.generateAccessToken(user);
         assertDoesNotThrow(() -> tokenProvider.getCredential(token, UserTest.class));
     }
 
     @Test
-    void validateTokenHappyCase() throws JsonProcessingException {
+    void validateTokenHappyCase() {
         String token = tokenProvider.generateAccessToken(user);
         assertDoesNotThrow(() -> tokenProvider.validateToken(token));
     }
 
     @Test
-    void validateTokenExpectSignatureException() throws JsonProcessingException {
+    void validateTokenExpectWeakKeyException() {
         String token = tokenProvider.generateAccessToken(user);
         tokenProvider = tokenProvider.toBuilder()
                 .secret("1234567890")
                 .build();
-        assertThrows(SignatureException.class, () -> tokenProvider.validateToken(token));
+        assertThrows(WeakKeyException.class, () -> tokenProvider.validateToken(token));
     }
 
     @Test
@@ -60,7 +59,7 @@ class TokenProviderTest {
     }
 
     @Test
-    void validateTokenExpectExpiredJwtException() throws JsonProcessingException {
+    void validateTokenExpectExpiredJwtException() {
         tokenProvider = tokenProvider.toBuilder()
                 .expireInMillisecond(1)
                 .build();

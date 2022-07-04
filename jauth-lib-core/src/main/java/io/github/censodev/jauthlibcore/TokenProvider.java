@@ -1,18 +1,24 @@
 package io.github.censodev.jauthlibcore;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.jackson.io.JacksonDeserializer;
+import io.jsonwebtoken.jackson.io.JacksonSerializer;
+import io.jsonwebtoken.security.Keys;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
@@ -43,43 +49,48 @@ public class TokenProvider {
     private ObjectMapper mapper = JsonMapper.builder()
             .findAndAddModules()
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .build();
 
-    public <T extends Credential> String generateAccessToken(T credential) throws JsonProcessingException {
+    public <T extends Credential> String generateAccessToken(T credential) {
         return generateToken(credential, expireInMillisecond);
     }
 
-    public <T extends Credential> String generateRefreshToken(T credential) throws JsonProcessingException {
+    public <T extends Credential> String generateRefreshToken(T credential) {
         return generateToken(credential, refreshTokenExpireInMillisecond);
     }
 
-    public <T extends Credential> T getCredential(String token, Class<T> tClass) throws IOException {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secret)
+    public <T extends Credential> T getCredential(String token, Class<T> tClass) {
+        Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        Map<?, ?> credInMap = Jwts.parserBuilder()
+                .deserializeJsonWith(new JacksonDeserializer<>(mapper))
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
-                .getBody();
-        return mapper.readValue(String.valueOf(claims.get(credentialClaimKey)), tClass);
+                .getBody()
+                .get(credentialClaimKey, Map.class);
+        return mapper.convertValue(credInMap, tClass);
     }
 
-    public void validateToken(String token) throws
-            MalformedJwtException,
-            ExpiredJwtException,
-            UnsupportedJwtException,
-            IllegalArgumentException,
-            SignatureException {
-        Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+    public void validateToken(String token) throws JwtException {
+        Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
     }
 
-    private <T extends Credential> String generateToken(T credential, Integer expireInMillisecond) throws JsonProcessingException {
+    private <T extends Credential> String generateToken(T credential, Integer expireInMillisecond) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expireInMillisecond);
+        Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()
+                .serializeToJsonWith(new JacksonSerializer<>(mapper))
                 .setSubject(credential.getSubject())
-                .claim(credentialClaimKey, mapper.writeValueAsString(credential))
+                .claim(credentialClaimKey, credential)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(signatureAlgorithm, secret)
+                .signWith(key, signatureAlgorithm)
                 .compact();
     }
 }
