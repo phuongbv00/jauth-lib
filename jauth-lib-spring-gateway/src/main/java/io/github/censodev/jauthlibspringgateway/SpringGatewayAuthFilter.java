@@ -65,8 +65,8 @@ public class SpringGatewayAuthFilter<T extends Credential> implements GlobalFilt
                     .getAuthorities()
                     .stream().map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
-            String username = credential.getUsername();
-            Authentication auth = new UsernamePasswordAuthenticationToken(username, credential, authorities);
+            String principle = credential.getPrinciple();
+            Authentication auth = new UsernamePasswordAuthenticationToken(principle, credential, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);
             hook.onPassed(credential);
         } catch (Exception e) {

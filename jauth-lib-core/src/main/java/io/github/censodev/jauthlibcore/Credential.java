@@ -5,7 +5,7 @@ import java.util.List;
 public interface Credential {
     String getSubject();
 
-    String getUsername();
+    String getPrinciple();
 
     List<String> getAuthorities();
 }

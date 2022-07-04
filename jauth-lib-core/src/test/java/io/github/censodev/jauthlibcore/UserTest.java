@@ -41,7 +41,7 @@ public class UserTest implements Credential {
     }
 
     @Override
-    public String getUsername() {
+    public String getPrinciple() {
         return username;
     }
 
