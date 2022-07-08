@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 
 public class SpringGatewayAuthFilter<T extends CanAuth> implements GlobalFilter {
     private final TokenProvider tokenProvider;
-    private final Class<T> credentialClass;
+    private final Class<T> canAuthConcreteClass;
     private final AuthFilterHook hook;
 
-    public SpringGatewayAuthFilter(TokenProvider tokenProvider, Class<T> credentialClass) {
+    public SpringGatewayAuthFilter(TokenProvider tokenProvider, Class<T> canAuthConcreteClass) {
         this.tokenProvider = tokenProvider;
-        this.credentialClass = credentialClass;
+        this.canAuthConcreteClass = canAuthConcreteClass;
         this.hook = new AuthFilterHook() {
             @Override
             public void beforeVerify(TokenProvider tokenProvider, String token) {
@@ -41,9 +41,9 @@ public class SpringGatewayAuthFilter<T extends CanAuth> implements GlobalFilter 
         };
     }
 
-    public SpringGatewayAuthFilter(TokenProvider tokenProvider, Class<T> credentialClass, AuthFilterHook hook) {
+    public SpringGatewayAuthFilter(TokenProvider tokenProvider, Class<T> canAuthConcreteClass, AuthFilterHook hook) {
         this.tokenProvider = tokenProvider;
-        this.credentialClass = credentialClass;
+        this.canAuthConcreteClass = canAuthConcreteClass;
         this.hook = hook;
     }
 
@@ -60,15 +60,15 @@ public class SpringGatewayAuthFilter<T extends CanAuth> implements GlobalFilter 
             String token = header.replace(tokenProvider.getPrefix(), "");
             hook.beforeVerify(tokenProvider, token);
             tokenProvider.validateToken(token);
-            T credential = tokenProvider.getCredential(token, credentialClass);
-            List<SimpleGrantedAuthority> authorities = credential
-                    .getAuthorities()
+            T canAuthConcrete = tokenProvider.getCredential(token, canAuthConcreteClass);
+            List<SimpleGrantedAuthority> authorities = canAuthConcrete
+                    .authorities()
                     .stream().map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
-            String principle = credential.getPrinciple();
-            Authentication auth = new UsernamePasswordAuthenticationToken(principle, credential, authorities);
+            Object principle = canAuthConcrete.principle();
+            Authentication auth = new UsernamePasswordAuthenticationToken(principle, canAuthConcrete, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);
-            hook.onPassed(credential);
+            hook.onPassed(canAuthConcrete);
         } catch (Exception e) {
             hook.onFailed(e);
             SecurityContextHolder.clearContext();

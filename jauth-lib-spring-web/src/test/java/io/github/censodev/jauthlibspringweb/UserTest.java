@@ -38,17 +38,12 @@ public class UserTest implements CanAuth {
     }
 
     @Override
-    public String getSubject() {
+    public String principle() {
         return username;
     }
 
     @Override
-    public String getPrinciple() {
-        return username;
-    }
-
-    @Override
-    public List<String> getAuthorities() {
+    public List<String> authorities() {
         return new ArrayList<>(authorities);
     }
 }

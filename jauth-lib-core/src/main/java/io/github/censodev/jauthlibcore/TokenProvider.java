@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -59,37 +60,45 @@ public class TokenProvider {
         return generateToken(credential, refreshTokenExpireInMillisecond);
     }
 
+    public Object getPrinciple(String token) {
+        return getClaims(token).getSubject();
+    }
+
     public <T extends CanAuth> T getCredential(String token, Class<T> tClass) {
-        Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        Map<?, ?> credInMap = Jwts.parserBuilder()
-                .deserializeJsonWith(new JacksonDeserializer<>(mapper))
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get(credentialClaimKey, Map.class);
+        Map<?, ?> credInMap = getClaims(token).get(credentialClaimKey, Map.class);
         return mapper.convertValue(credInMap, tClass);
     }
 
     public void validateToken(String token) throws JwtException {
-        Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(getKey())
                 .build()
                 .parseClaimsJws(token);
     }
 
-    private <T extends CanAuth> String generateToken(T credential, Integer expireInMillisecond) {
+    private <T extends CanAuth> String generateToken(T canAuth, Integer expireInMillisecond) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expireInMillisecond);
-        Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        Date expiredDate = new Date(now.getTime() + expireInMillisecond);
         return Jwts.builder()
                 .serializeToJsonWith(new JacksonSerializer<>(mapper))
-                .setSubject(credential.getSubject())
-                .claim(credentialClaimKey, credential)
+                .setSubject(canAuth.principle().toString())
+                .claim(credentialClaimKey, canAuth)
                 .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(key, signatureAlgorithm)
+                .setExpiration(expiredDate)
+                .signWith(getKey(), signatureAlgorithm)
                 .compact();
+    }
+
+    private Key getKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .deserializeJsonWith(new JacksonDeserializer<>(mapper))
+                .setSigningKey(getKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

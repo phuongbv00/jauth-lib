@@ -3,9 +3,7 @@ package io.github.censodev.jauthlibcore;
 import java.util.List;
 
 public interface CanAuth {
-    String getSubject();
+    Object principle();
 
-    String getPrinciple();
-
-    List<String> getAuthorities();
+    List<String> authorities();
 }

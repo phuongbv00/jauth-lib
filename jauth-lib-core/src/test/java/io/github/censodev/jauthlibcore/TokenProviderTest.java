@@ -104,4 +104,10 @@ class TokenProviderTest {
     void getSignatureAlgorithm() {
         assertEquals(SignatureAlgorithm.HS256, tokenProvider.getSignatureAlgorithm());
     }
+
+    @Test
+    void getPrinciple() {
+        String token = tokenProvider.generateAccessToken(user);
+        assertEquals(user.principle(), tokenProvider.getPrinciple(token));
+    }
 }
