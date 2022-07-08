@@ -12,12 +12,15 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TokenProviderTest {
+    static final String SECRET = "1234567890qwertyuiopasdfghjklzxcvbnm!@#$&*()";
     TokenProvider tokenProvider;
     Credential user;
 
     @BeforeEach
     void setUp() {
-        tokenProvider = new TokenProvider();
+        tokenProvider = TokenProvider.builder()
+                .secret(SECRET)
+                .build();
         user = new UserTest(Arrays.asList("ROLE_ADMIN", "ROLE_CUSTOMER"), "admin");
     }
 
@@ -84,7 +87,7 @@ class TokenProviderTest {
 
     @Test
     void getSecret() {
-        assertEquals("qwertyuiopasdfghjklzxcvbnm1!2@3#4$5%6^7&8*9(0)-_=+", tokenProvider.getSecret());
+        assertEquals(SECRET, tokenProvider.getSecret());
     }
 
     @Test

@@ -36,7 +36,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <gpg.key>0xE30426FD</gpg.key>
+        <gpg.key>0xDC0E934A</gpg.key>
         <spring-boot.version>2.6.7</spring-boot.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>

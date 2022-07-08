@@ -12,7 +12,7 @@ import io.jsonwebtoken.jackson.io.JacksonSerializer;
 import io.jsonwebtoken.security.Keys;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 import java.nio.charset.StandardCharsets;
@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.Map;
 
 @SuperBuilder(toBuilder = true)
-@NoArgsConstructor
 @Getter
 public class TokenProvider {
     @Builder.Default
@@ -36,8 +35,8 @@ public class TokenProvider {
     @Builder.Default
     private Integer refreshTokenExpireInMillisecond = 86_400_000;
 
-    @Builder.Default
-    private String secret = "qwertyuiopasdfghjklzxcvbnm1!2@3#4$5%6^7&8*9(0)-_=+";
+    @NonNull
+    private String secret;
 
     @Builder.Default
     private String credentialClaimKey = "credential";
