@@ -19,6 +19,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SpringWebAuthFilterTest {
+    static final String SECRET = "1234567890qwertyuiopasdfghjklzxcvbnm!@#$&*()";
     SpringWebAuthFilter<UserTest> filter;
     TokenProvider tokenProvider;
     AuthFilterHook hook;
@@ -28,7 +29,9 @@ class SpringWebAuthFilterTest {
 
     @BeforeEach
     void setUp() {
-        tokenProvider = new TokenProvider();
+        tokenProvider = TokenProvider.builder()
+                .secret(SECRET)
+                .build();
         req = new MockHttpServletRequest();
         res = new MockHttpServletResponse();
         chain = new MockFilterChain();

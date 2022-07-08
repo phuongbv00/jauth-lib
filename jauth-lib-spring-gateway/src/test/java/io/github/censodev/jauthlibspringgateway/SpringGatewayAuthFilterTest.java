@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class SpringGatewayAuthFilterTest {
+    static final String SECRET = "1234567890qwertyuiopasdfghjklzxcvbnm!@#$&*()";
     SpringGatewayAuthFilter<UserTest> filter;
     TokenProvider tokenProvider;
     AuthFilterHook hook;
@@ -26,7 +27,9 @@ class SpringGatewayAuthFilterTest {
 
     @BeforeEach
     void setUp() {
-        tokenProvider = new TokenProvider();
+        tokenProvider = TokenProvider.builder()
+                .secret(SECRET)
+                .build();
         chain = mock(GatewayFilterChain.class);
         SecurityContextHolder.clearContext();
     }
