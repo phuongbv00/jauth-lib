@@ -19,7 +19,7 @@ public class AuthController {
 
     @GetMapping("login")
     public AuthService.Tokens login(@RequestParam String usn,
-                        @RequestParam String pwd) {
+                                    @RequestParam String pwd) {
         return authService.login(usn, pwd);
     }
 }
