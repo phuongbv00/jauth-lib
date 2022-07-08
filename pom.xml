@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <version>0.0.0</version>
     <name>JAuth Lib</name>
-
+    <description>JAuth Lib is a set of Java modules that boots up your JWT-based authentication tasks faster</description>
     <url>https://github.com/censodev/jauth-lib</url>
 
     <licenses>
@@ -76,7 +76,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
+                <version>1.6.13</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
