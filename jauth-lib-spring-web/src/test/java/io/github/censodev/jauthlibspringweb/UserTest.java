@@ -1,13 +1,13 @@
 package io.github.censodev.jauthlibspringweb;
 
-import io.github.censodev.jauthlibcore.Credential;
+import io.github.censodev.jauthlibcore.CanAuth;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UserTest implements Credential {
+public class UserTest implements CanAuth {
     private List<String> authorities = Collections.emptyList();
     private String username;
     private Instant createdAt;

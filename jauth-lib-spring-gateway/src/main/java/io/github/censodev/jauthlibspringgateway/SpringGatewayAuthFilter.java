@@ -1,7 +1,7 @@
 package io.github.censodev.jauthlibspringgateway;
 
 import io.github.censodev.jauthlibcore.AuthFilterHook;
-import io.github.censodev.jauthlibcore.Credential;
+import io.github.censodev.jauthlibcore.CanAuth;
 import io.github.censodev.jauthlibcore.TokenProvider;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SpringGatewayAuthFilter<T extends Credential> implements GlobalFilter {
+public class SpringGatewayAuthFilter<T extends CanAuth> implements GlobalFilter {
     private final TokenProvider tokenProvider;
     private final Class<T> credentialClass;
     private final AuthFilterHook hook;
@@ -30,7 +30,7 @@ public class SpringGatewayAuthFilter<T extends Credential> implements GlobalFilt
             }
 
             @Override
-            public void onPassed(Credential credential) {
+            public void onPassed(CanAuth canAuth) {
 
             }
 

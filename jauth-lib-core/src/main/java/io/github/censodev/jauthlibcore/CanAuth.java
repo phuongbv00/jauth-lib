@@ -2,7 +2,7 @@ package io.github.censodev.jauthlibcore;
 
 import java.util.List;
 
-public interface Credential {
+public interface CanAuth {
     String getSubject();
 
     String getPrinciple();

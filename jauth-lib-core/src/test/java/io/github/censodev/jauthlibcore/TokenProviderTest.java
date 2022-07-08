@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TokenProviderTest {
     static final String SECRET = "1234567890qwertyuiopasdfghjklzxcvbnm!@#$&*()";
     TokenProvider tokenProvider;
-    Credential user;
+    CanAuth user;
 
     @BeforeEach
     void setUp() {

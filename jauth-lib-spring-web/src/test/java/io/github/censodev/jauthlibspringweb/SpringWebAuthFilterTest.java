@@ -2,7 +2,7 @@ package io.github.censodev.jauthlibspringweb;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.censodev.jauthlibcore.AuthFilterHook;
-import io.github.censodev.jauthlibcore.Credential;
+import io.github.censodev.jauthlibcore.CanAuth;
 import io.github.censodev.jauthlibcore.TokenProvider;
 import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,8 +47,8 @@ class SpringWebAuthFilterTest {
             }
 
             @Override
-            public void onPassed(Credential credential) {
-                assertNull(credential);
+            public void onPassed(CanAuth canAuth) {
+                assertNull(canAuth);
             }
 
             @Override
@@ -72,8 +72,8 @@ class SpringWebAuthFilterTest {
             }
 
             @Override
-            public void onPassed(Credential credential) {
-                assertNull(credential);
+            public void onPassed(CanAuth canAuth) {
+                assertNull(canAuth);
             }
 
             @Override
@@ -105,8 +105,8 @@ class SpringWebAuthFilterTest {
             }
 
             @Override
-            public void onPassed(Credential credential) {
-                assertNull(credential);
+            public void onPassed(CanAuth canAuth) {
+                assertNull(canAuth);
             }
 
             @Override
@@ -136,8 +136,8 @@ class SpringWebAuthFilterTest {
             }
 
             @Override
-            public void onPassed(Credential credential) {
-                assertNotNull(credential);
+            public void onPassed(CanAuth canAuth) {
+                assertNotNull(canAuth);
                 assertNotNull(SecurityContextHolder.getContext().getAuthentication());
                 assertTrue(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
             }

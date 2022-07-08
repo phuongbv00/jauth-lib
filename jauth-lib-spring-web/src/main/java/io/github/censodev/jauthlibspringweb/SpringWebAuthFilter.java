@@ -1,7 +1,7 @@
 package io.github.censodev.jauthlibspringweb;
 
 import io.github.censodev.jauthlibcore.AuthFilterHook;
-import io.github.censodev.jauthlibcore.Credential;
+import io.github.censodev.jauthlibcore.CanAuth;
 import io.github.censodev.jauthlibcore.TokenProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SpringWebAuthFilter<T extends Credential> implements Filter {
+public class SpringWebAuthFilter<T extends CanAuth> implements Filter {
     private final TokenProvider tokenProvider;
     private final Class<T> credentialClass;
     private final AuthFilterHook hook;
@@ -29,7 +29,7 @@ public class SpringWebAuthFilter<T extends Credential> implements Filter {
             }
 
             @Override
-            public void onPassed(Credential credential) {
+            public void onPassed(CanAuth canAuth) {
 
             }
 

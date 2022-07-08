@@ -51,15 +51,15 @@ public class TokenProvider {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .build();
 
-    public <T extends Credential> String generateAccessToken(T credential) {
+    public <T extends CanAuth> String generateAccessToken(T credential) {
         return generateToken(credential, expireInMillisecond);
     }
 
-    public <T extends Credential> String generateRefreshToken(T credential) {
+    public <T extends CanAuth> String generateRefreshToken(T credential) {
         return generateToken(credential, refreshTokenExpireInMillisecond);
     }
 
-    public <T extends Credential> T getCredential(String token, Class<T> tClass) {
+    public <T extends CanAuth> T getCredential(String token, Class<T> tClass) {
         Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Map<?, ?> credInMap = Jwts.parserBuilder()
                 .deserializeJsonWith(new JacksonDeserializer<>(mapper))
@@ -79,7 +79,7 @@ public class TokenProvider {
                 .parseClaimsJws(token);
     }
 
-    private <T extends Credential> String generateToken(T credential, Integer expireInMillisecond) {
+    private <T extends CanAuth> String generateToken(T credential, Integer expireInMillisecond) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expireInMillisecond);
         Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
