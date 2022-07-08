@@ -44,6 +44,7 @@
         <module>jauth-lib-core</module>
         <module>jauth-lib-spring-web</module>
         <module>jauth-lib-spring-gateway</module>
+        <module>jauth-lib-demo</module>
     </modules>
 
     <dependencies>
