@@ -36,7 +36,6 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <gpg.key>0xDC0E934A</gpg.key>
         <spring-boot.version>2.6.7</spring-boot.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>
@@ -51,8 +50,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
+            <version>1.18.24</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -124,7 +122,7 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <keyname>${gpg.key}</keyname>
+                            <keyname>${gpg.keyname}</keyname>
                         </configuration>
                     </execution>
                 </executions>
