@@ -9,6 +9,7 @@ JAuth Lib is a set of Java modules that boots up your JWT-based authentication t
 * [JAuth Lib Core](./jauth-lib-core)
 * [JAuth Lib Spring Web](./jauth-lib-spring-web)
 * [JAuth Lib Spring Gateway](./jauth-lib-spring-gateway)
+* [JAuth Lib Demo](./jauth-lib-demo)
 
 ## 3. Installation
 
