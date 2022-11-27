@@ -96,7 +96,7 @@ class SpringGatewayAuthFilterTest {
     void expect401InvalidToken() throws JsonProcessingException {
         String[] tokens = new String[]{
                 "1234567890",
-                tokenProvider.toBuilder().secret("1234567890").build().generateAccessToken(new UserTest()),
+                tokenProvider.toBuilder().secret("1234567890123456789012345678901234567890").build().generateAccessToken(new UserTest()),
                 tokenProvider.toBuilder().expireInMillisecond(1).build().generateAccessToken(new UserTest()),
         };
         hook = new AuthFilterHook() {

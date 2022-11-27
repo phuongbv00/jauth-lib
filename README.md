@@ -9,6 +9,7 @@ Versions compatibility table:
 | JAuth Lib version | Spring Boot version | Spring Cloud version |
 |:-----------------:|:-------------------:|:--------------------:|
 |       0.0.0       |        2.6.7        |       2021.0.1       |
+|       0.1.0       |        2.7.6        |       2021.0.5       |
 
 ## 2. Modules
 

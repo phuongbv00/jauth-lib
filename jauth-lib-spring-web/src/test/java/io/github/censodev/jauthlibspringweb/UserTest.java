@@ -19,6 +19,7 @@ public class UserTest implements CanAuth {
     }
 
     public UserTest() {
+        username = "username";
     }
 
     public Instant getCreatedAt() {

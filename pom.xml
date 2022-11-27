@@ -7,7 +7,7 @@
     <groupId>io.github.censodev</groupId>
     <artifactId>jauth-lib</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.0</version>
+    <version>0.1.0</version>
     <name>JAuth Lib</name>
     <description>JAuth Lib is a set of Java modules that boots up your JWT-based authentication tasks faster</description>
     <url>https://github.com/censodev/jauth-lib</url>
@@ -36,8 +36,8 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spring-boot.version>2.6.7</spring-boot.version>
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <spring-boot.version>2.7.6</spring-boot.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
     </properties>
 
     <modules>
