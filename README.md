@@ -27,7 +27,7 @@ Add the core dependency first:
 <dependency>
     <groupId>io.github.censodev</groupId>
     <artifactId>jauth-lib-core</artifactId>
-    <version>0.1.0</version>
+    <version>0.0.0</version>
 </dependency>
 ```
 
@@ -42,7 +42,7 @@ If you are handling the authentication tasks with **Spring Web**, add the below 
 <dependency>
     <groupId>io.github.censodev</groupId>
     <artifactId>jauth-lib-spring-web</artifactId>
-    <version>0.1.0</version>
+    <version>0.0.0</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ In opposite, if you are working with **Spring Gateway**, add dependency:
 <dependency>
     <groupId>io.github.censodev</groupId>
     <artifactId>jauth-lib-spring-gateway</artifactId>
-    <version>0.1.0</version>
+    <version>0.0.0</version>
 </dependency>
 ```
 
