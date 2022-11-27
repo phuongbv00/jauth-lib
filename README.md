@@ -4,6 +4,12 @@
 
 JAuth Lib is a set of Java modules that boots up your JWT-based authentication tasks faster.
 
+Versions compatibility table:
+
+| JAuth Lib version | Spring Boot version | Spring Cloud version |
+|:-----------------:|:-------------------:|:--------------------:|
+|       0.0.0       |        2.6.7        |       2021.0.1       |
+
 ## 2. Modules
 
 * [JAuth Lib Core](./jauth-lib-core)
